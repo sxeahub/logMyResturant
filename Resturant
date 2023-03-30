@@ -1,0 +1,44 @@
+local HttpService = game:GetService("HttpService")
+
+function sendProgress()
+    local embed = {
+            ["title"] = "Chef Cat Progress Tracker",
+            ["description"] = "",
+            ["type"] = "rich",
+            ["color"] = tonumber(0x00ffff),
+            ["fields"] = {
+                {
+                    ["name"] = "**Account**",
+                    ["value"] = "Username: ".."||"..game:GetService("Players").LocalPlayer.Name.."||",
+                    ["inline"] = false
+                },
+                {
+                    ["name"] = "**Progress**",
+                    ["value"] = game:GetService("Players").LocalPlayer.PlayerGui.ChefCatBar.Main.Progress.Text,
+                    ["inline"] = false
+                }
+            },
+            ["thumbnail"] = {
+                    ["url"] = "https://i.ibb.co/3YwWGgf/chefcat.png"
+            },
+            ["footer"] = {
+                ["text"] = "My Resturant Tracker"
+            }
+    }
+        
+    (syn and syn.request or fluxus and fluxus.request or http_request or http.request or request) {
+        Url = Webhook,
+        Method = "POST",
+        Headers = {
+            ["Content-Type"] = "application/json"
+        };
+        Body = HttpService:JSONEncode({
+            ["content"] = "<@"..DiscordID..">",
+            embeds = {embed} 
+        })
+    }
+end
+
+while task.wait(Duration) do
+    sendProgress()
+end
